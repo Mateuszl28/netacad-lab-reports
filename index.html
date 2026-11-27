@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>NetAcad Lab Reports</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&family=Space+Grotesk:wght@500;600&display=swap">
 <style>
 /* Layout: a report shelf (two selectable report cards) above a continuous page-by-page PDF reader */
@@ -152,9 +151,11 @@ async function render(pdf, el, my) {
   await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
 }
 
-document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => { if (c.dataset.key !== current) show(c.dataset.key); }));
+document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => { if (c.dataset.key !== current) location.hash = c.dataset.key; }));
 
-show('cppe2');
+const pick = () => show(REPORTS[location.hash.slice(1)] ? location.hash.slice(1) : 'cppe2');
+window.addEventListener('hashchange', () => { if (location.hash.slice(1) !== current) pick(); });
+pick();
 </script>
 
 </body>
